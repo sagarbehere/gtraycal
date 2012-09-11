@@ -8,6 +8,10 @@
 #		wanted a systray calendar that emulates the one in
 #		gnome2 panel
 
+# CREDITS: Used code from
+# http://eurion.net/python-snippets/snippet/Systray%20icon.html
+# http://stackoverflow.com/questions/11132929/showing-a-gtk-calendar-in-a-menu		
+
 # LICENSE: Do whatever you want with it, and don't blame me for whatever
 #	   it does :)
 
@@ -33,6 +37,9 @@ class Calendar:
 		cal_vbox.pack_start(cal, True, False, 0)
 		cal_vbox.pack_start(gtk.Button("Dummy locations"), True, False, 0)
 		self.visible = False
+		# below lines needed to to get proper placement of
+		# calendar popup window for the first time
+		# My hypothesis is that it allocates the window geometry
 		self.cal_window.show_all()
 		self.cal_window.hide_all()
 	
@@ -46,7 +53,7 @@ class Calendar:
 				y = iconarea.y + iconarea.height
 			else: # bottom panel
 				y = iconarea.y - rect.height
-				print "bottom panel"
+
 			self.cal_window.move(x,y)
 			self.cal_window.show_all()
 			self.visible = True
@@ -60,29 +67,11 @@ class SystrayIconApp:
 		self.tray.set_from_stock(gtk.STOCK_ABOUT) 
 		self.tray.connect('popup-menu', self.on_right_click)
 		self.tray.connect('activate', self.on_left_click)
-		self.tray.set_tooltip(('Sample tray app'))
+		self.tray.set_tooltip(('Calendar'))
 		self.calendar = Calendar()
 		
 
     	def on_right_click(self, icon, event_button, event_time):
-		self.make_menu(event_button, event_time)
-		
-	def show_calendar(self):
-		cal_window = gtk.Window(gtk.WINDOW_POPUP)
-		cal_window.set_decorated(False)
-		cal_window.set_resizable(False)
-		cal_window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DOCK)
-		cal_window.stick()
-		cal_vbox = gtk.VBox(False, 10)
-		cal_window.add(cal_vbox)
-		cal_vbox.pack_start(gtk.Calendar(), True, False, 0)
-		cal_vbox.pack_start(gtk.Button("Dummy locations"), True, False, 0)
-		cal_window.show_all()
-
-	def on_left_click(self, icon):
-		self.calendar.toggle_visibility(self.tray)
-
-    	def make_menu(self, event_button, event_time):
 		menu = gtk.Menu()
 
 		about = gtk.MenuItem("About")
@@ -94,17 +83,20 @@ class SystrayIconApp:
 		quit.show()
 		menu.append(quit)
 		quit.connect('activate', gtk.main_quit)
-
+		
 		menu.popup(None, None, gtk.status_icon_position_menu,event_button, event_time, self.tray)
+
+	def on_left_click(self, icon):
+		self.calendar.toggle_visibility(self.tray)
 
 	def  show_about_dialog(self, widget):
 		about_dialog = gtk.AboutDialog()
 		about_dialog.set_destroy_with_parent (True)
-		about_dialog.set_icon_name ("SystrayCalendar")
-		about_dialog.set_name('SystrayCalendar')
+		about_dialog.set_icon_name ("gtraycal")
+		about_dialog.set_name('gtraycal')
 		about_dialog.set_version('0.1')
 		about_dialog.set_copyright("(C) 2012 Sagar Behere")
-		about_dialog.set_comments(("Program to demonstrate a system tray calendar"))
+		about_dialog.set_comments(("A simple system tray calendar"))
 		about_dialog.set_authors(['Sagar Behere <sagar@sagar.se>'])
 		about_dialog.run()
 		about_dialog.destroy()
