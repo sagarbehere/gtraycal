@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Author: Sagar Behere <sagar@sagar.se>, 12 Sept. 2012
+# Author: Sagar Behere <sagar.behere@gmail.com>, 12 Sept. 2012
 # DISCLAIMER: I don't know enough of either Python or GTK+, so there
 #		are probably silly errors in this script.
 # 		It is just something thrown quickly together because I 
@@ -97,7 +97,7 @@ class SystrayIconApp:
 		about_dialog.set_version('0.1')
 		about_dialog.set_copyright("(C) 2012 Sagar Behere")
 		about_dialog.set_comments(("A simple system tray calendar"))
-		about_dialog.set_authors(['Sagar Behere <sagar@sagar.se>'])
+		about_dialog.set_authors(['Sagar Behere <sagar.behere@gmail.com>'])
 		about_dialog.run()
 		about_dialog.destroy()
 
