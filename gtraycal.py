@@ -23,6 +23,8 @@ import pygtk
 import gtk
 import time
 
+from datetime import datetime
+
 class Calendar:
 	def __init__(self):
 		self.cal_window = gtk.Window(gtk.WINDOW_POPUP)
@@ -32,9 +34,9 @@ class Calendar:
 		self.cal_window.stick()
 		cal_vbox = gtk.VBox(False, 10)
 		self.cal_window.add(cal_vbox)
-		cal = gtk.Calendar()
-		cal.set_property("show-week-numbers", True)
-		cal_vbox.pack_start(cal, True, False, 0)
+		self.cal = gtk.Calendar()
+		self.cal.set_property("show-week-numbers", True)
+		cal_vbox.pack_start(self.cal, True, False, 0)
 		cal_vbox.pack_start(gtk.Button("Dummy locations"), True, False, 0)
 		self.visible = False
 		# below lines needed to to get proper placement of
@@ -55,6 +57,11 @@ class Calendar:
 				y = iconarea.y - rect.height
 
 			self.cal_window.move(x,y)
+			
+			now = datetime.now()
+			self.cal.select_month(now.month-1, now.year)
+			self.cal.select_day(now.day)
+			
 			self.cal_window.show_all()
 			self.visible = True
 		else:
