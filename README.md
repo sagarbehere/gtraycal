@@ -24,6 +24,15 @@ $ ./gtraycal.py
 ## Configuration ##
 
 If a configuration file is passed to gtraycal via the -c command line parameter [e.g: ./gtraycal.py -c ./gtraycal.conf], then the program will try to read locations from the configuration file and display the current time at those locations in the dropdown calendar.
+In order to use this feature, you need to have the pytz package http://pytz.sourceforge.net/
+A simple way to install it is with python-setuptools 
+
+$ sudo aptitude install python-setuptools
+
+followed by
+
+$ easy_install --upgrade pytz
+
 An example configuration file, gtraycal.conf,  is provided and it's format should be self-explanatory.
 Valid timezone strings may be picked up from /usr/share/zoneinfo on most Linux distributions.
 
